@@ -10,7 +10,7 @@ AVAILABLE_COMMANDS = {
 def build_help_attachment(command: Optional[str] = None) -> Mapping[str, Any]:
     unknown_command = f"Unknown command: `{command}`\n" if command else ""
     commands_list = "\n".join(
-        [f"• *{command}* - {description}" for command, description in AVAILABLE_COMMANDS.items()]
+        f"• *{command}* - {description}" for command, description in AVAILABLE_COMMANDS.items()
     )
     message = f"{unknown_command}Available Commands:\n{commands_list}"
 
