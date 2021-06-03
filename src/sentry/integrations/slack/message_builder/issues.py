@@ -3,6 +3,7 @@ from typing import List, Mapping, Union
 from django.core.cache import cache
 
 from sentry import tagstore
+from sentry.integrations.slack.message_builder import get_logo_url
 from sentry.integrations.slack.utils import ACTIONED_ISSUE_COLOR, LEVEL_TO_COLOR
 from sentry.models import (
     ActorTuple,
@@ -18,7 +19,6 @@ from sentry.models import (
     User,
 )
 from sentry.utils import json
-from sentry.utils.assets import get_asset_url
 from sentry.utils.dates import to_timestamp
 from sentry.utils.http import absolute_uri
 
@@ -258,7 +258,6 @@ def build_group_attachment(
     issue_alert: bool = False,
 ):
     # XXX(dcramer): options are limited to 100 choices, even when nested
-    logo_url = absolute_uri(get_asset_url("sentry", "images/sentry-email-avatar.png"))
     text = build_attachment_text(group, event) or ""
     project = Project.objects.get_from_cache(id=group.project_id)
 
@@ -303,7 +302,7 @@ def build_group_attachment(
         "fields": fields,
         "mrkdwn_in": ["text"],
         "callback_id": json.dumps({"issue": group.id}),
-        "footer_icon": logo_url,
+        "footer_icon": get_logo_url(),
         "footer": footer,
         "ts": to_timestamp(ts),
         "color": color,
