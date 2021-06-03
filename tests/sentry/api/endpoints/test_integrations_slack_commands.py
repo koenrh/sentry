@@ -35,7 +35,7 @@ class SlackCommandsTest(APITestCase):
     endpoint = "sentry-integration-slack-commands"
 
     def get_slack_response(self, payload: Mapping[str, str]) -> Response:
-        """ Shadow get_success_response but with a non-JSON payload. """
+        """Shadow get_success_response but with a non-JSON payload."""
         response = self.client.post(
             reverse(self.endpoint),
             content_type="application/x-www-form-urlencoded",
